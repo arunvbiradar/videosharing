@@ -1,8 +1,15 @@
 import {Router} from "express"
-import { authRoute } from "../controllers/auth.controller.js";
+import { signin, signup } from "../controllers/auth.controller.js";
 
 const router = Router();
 
-router.get('/', authRoute)
+// create user
+router.post('/signup', signup)
+
+// sign in user
+router.post('/signin', signin)
+
+// google authentication
+router.post('/google',)
 
 export default router

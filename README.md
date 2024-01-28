@@ -33,7 +33,7 @@ Follow these steps to set up VidShare on your local machine:
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/your-username/vidshare.git
+   git clone https://github.com/arunvbiradar/vidshare.git
    ```
 
 2. **Navigate to the Project Directory:**

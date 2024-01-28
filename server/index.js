@@ -1,6 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose';
 import dotenv from "dotenv";
+import cookieParser from 'cookie-parser';
 
 import authRoute from "./routes/auth.route.js"
 import userRoute from "./routes/user.route.js"
@@ -18,10 +19,26 @@ const connect = async () => {
   })
 }
 
+// middleware
+app.use(cookieParser())
+app.use(express.json())
+
+// routes
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/videos", videoRoute);
 app.use("/api/comments", commentRoute);
+
+// error handling
+app.use((err, req, res, next) => {
+  const status = err.status || 500;
+  const message = err.message || "Something went wrong";
+  return res.status(status).json({
+    success: false,
+    status,
+    message
+  })
+})
 
 app.listen(8800, () => {
   connect();
