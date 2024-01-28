@@ -65,9 +65,34 @@ Follow these steps to set up VidShare on your local machine:
 ## API Routes
 
 - `/api/auth`
+  - `/api/auth/signup/` - Create new users; POST method
+  - `/api/auth/signin/` - Login user using email; POST method
+  - 
 - `/api/users`
+  - `/api/users/:id` - Update user; PUT method
+  - `/api/users/:id` - Delete user; DELETE method
+  - `/api/users/` - Fetch all users; GET method
+  - `/api/users/:id` - Fetch single user detail; GET method
+  - `/api/users/subscribe/:id` - Subscribe to a channel; PUT method
+  - `/api/users/unsubscribe/:id` - Unsubscribe to a channel; PUT method
+  - `/api/users/like/:videoId` - Like a video; PUT method
+  - `/api/users/dislike/:videoId` - Dislike a video; PUT method
 - `/api/videos`
+  - `/api/videos/` - Add a video; POST method
+  - `/api/videos/:id` - Delete a video; DELETE method
+  - `/api/videos/:id` - Update a video; PUT method
+  - `/api/videos/view/:id` - Update video view; PUT method
+  - `/api/videos/` - Fetch all video; GET method
+  - `/api/videos/find/:id` - Fetch a single video; GET method
+  - `/api/videos/trending` - Fetch trending videos; GET method
+  - `/api/videos/random` - Fetch random videos; GET method
+  - `/api/videos/subsribed` - Fetch subscribe videos; GET method
+  - `/api/videos/tags?tags=tag1,tag2` - Fetch videos by tags; GET method
+  - `/api/videos/search?q=title` - Search video by video title; GET method
 - `/api/comments`
+  - `/api/comments/` - Add a comment; POST method
+  - `/api/comments/:id` - Delete a comment; DELETE method
+  - `/api/comments/:videoId` - Fetch all video comments; GET method
 
 ## Controllers
 
@@ -114,3 +139,4 @@ Follow these steps to set up VidShare on your local machine:
 ## Environment Variables
 
 - `MONGO_URL`: MongoDB connection URL.
+- `JWT_SECRET`: Json web token secret
