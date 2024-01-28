@@ -80,17 +80,13 @@ export const getallVideo  = async (req, res, next) => {
 
 // get a video
 export const getAVideo  = async (req, res, next) => {
+  const {id} = req.params;
   try {
     const video = await Video.findById(id);
     if(!video) return next(404, "Video does not exist!");
 
-    if(id === userId) {
-      const getVideo = await Video.findById(id)
-
-      res.status(200).json(getVideo)
-    } else {
-      next(createError(403, "You are not authorized to update!"))
-    }
+    const getVideo = await Video.findById(id)
+    res.status(200).json(getVideo)
   } catch (error) {
     next(error)
   }
