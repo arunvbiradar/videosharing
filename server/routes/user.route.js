@@ -1,27 +1,31 @@
 import {Router} from "express"
-import { deleteUser, dislikeVideo, getAUser, likeVideo, subscribeUser, unSubscribeUser, updateUser } from "../controllers/user.controller";
+import { deleteUser, dislikeVideo, getAUser, getAllUsers, likeVideo, subscribeUser, unSubscribeUser, updateUser } from "../controllers/user.controller.js";
+import { verifyToken } from "../verifyToken.js";
 
 const router = Router();
 
 // update user
-router.put("/:id", updateUser)
+router.put("/:id", verifyToken, updateUser)
 
 // delete user
-router.put("/:id", deleteUser)
+router.delete("/:id", verifyToken, deleteUser)
+
+// get all users
+router.get("/", getAllUsers)
 
 // get a user
-router.put("/:id", getAUser)
+router.get("/:id", getAUser)
 
 // subscribe a user
-router.put("/:id", subscribeUser)
+router.put("/subscribe/:id", verifyToken, subscribeUser)
 
 // unsubscribe a user
-router.put("/:id", unSubscribeUser)
+router.put("/unsubscribe/:id", verifyToken, unSubscribeUser)
 
 // like a video
-router.put("/:id", likeVideo)
+router.put("/:id", verifyToken, likeVideo)
 
 // dislike a video
-router.put("/:id", dislikeVideo)
+router.put("/:id", verifyToken, dislikeVideo)
 
 export default router

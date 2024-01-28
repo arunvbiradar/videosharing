@@ -1,34 +1,117 @@
+import { createError } from "../error.js"
+import User from "./../models/User.model.js"
+
 // update user
-export const updateUser = (req, res, next) => {
-  res.send('from user controller')
+export const updateUser = async (req, res, next) => {
+  const { id } = req.params;
+  if(id === req.user.id) {
+    try {
+      const updatedUser = await User.findByIdAndUpdate(id, {
+        $set: req.body
+      }, {new: true});
+
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      next(error)
+    }
+  } else {
+    return next(createError(403, "You are not authorized to update profile!"))
+  }
 }
 
 // delete user
-export const deleteUser = (req, res, next) => {
-  res.send('from user controller')
+export const deleteUser = async (req, res, next) => {
+  const { id } = req.params;
+  if(id === req.user.id) {
+    try {
+      const deletedUser = await User.findByIdAndDelete(id);
+
+      // TODO: logout user after deleting
+
+      res.status(200).json(deletedUser);
+    } catch (error) {
+      next(error)
+    }
+  } else {
+    return next(createError(403, "You are not authorized to delete profile!"))
+  }
+}
+
+// get all users
+export const getAllUsers = async (req, res, next) => {
+  try {
+    const allUsers = await User.find();
+
+    res.status(200).json(allUsers);
+  } catch (error) {
+    next(error)
+  }
 }
 
 // get a user
-export const getAUser = (req, res, next) => {
-  res.send('from user controller')
+export const getAUser = async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findById(id);
+
+    res.status(200).json(user);
+  } catch (error) {
+    next(error)
+  }
 }
 
 // subscribe a user
-export const subscribeUser = (req, res, next) => {
-  res.send('from user controller')
+export const subscribeUser = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      $push: {subscribedUsers: req.params.id}
+    })
+
+    await User.findByIdAndUpdate(req.params.id, {
+      $inc: {subscribers: 1}
+    });
+
+    res.status(200).json("Subscription successfull!");
+  } catch (error) {
+    next(error)
+  }
 }
 
 // unsubscribe a user
-export const unSubscribeUser = (req, res, next) => {
-  res.send('from user controller')
+export const unSubscribeUser = async (req, res, next) => {
+  try {
+    await User.findByIdAndUpdate(req.user.id, {
+      $pull: {subscribedUsers: req.params.id}
+    })
+
+    await User.findByIdAndUpdate(req.params.id, {
+      $inc: {subscribers: -1}
+    });
+
+    res.status(200).json("Unsubscription successfull!");
+  } catch (error) {
+    next(error)
+  }
 }
 
 // like a video
-export const likeVideo = (req, res, next) => {
-  res.send('from user controller')
+export const likeVideo = async (req, res, next) => {
+  try {
+    const allUsers = await User.find();
+
+    res.status(200).json(allUsers);
+  } catch (error) {
+    next(error)
+  }
 }
 
 // dislike a video
-export const dislikeVideo = (req, res, next) => {
-  res.send('from user controller')
+export const dislikeVideo = async (req, res, next) => {
+  try {
+    const allUsers = await User.find();
+
+    res.status(200).json(allUsers);
+  } catch (error) {
+    next(error)
+  }
 }
