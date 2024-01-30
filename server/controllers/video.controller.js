@@ -16,16 +16,17 @@ export const addVideo  = async (req, res, next) => {
 
 // delete video
 export const deleteVideo  = async (req, res, next) => {
+
   try {
-    const video = await Video.findById(id);
+    const video = await Video.findById(req.params.id);
     if(!video) return next(404, "Video does not exist!");
 
-    if(id === userId) {
-      const deleteVideo = await Video.findByIdAndDelet(id)
+    if(video.userId === req.user.id) {
+      const deleteVideo = await Video.findByIdAndDelete(req.params.id)
 
-      res.status(200).json(deleteVideo)
+      res.status(200).json("Video is deleted!")
     } else {
-      next(createError(403, "Video is deleted!"))
+      next(createError(403, "You are not authorized to delete this video!"))
     }
   } catch (error) {
     next(error)
@@ -38,9 +39,10 @@ export const updateVideo  = async (req, res, next) => {
   const {id} = req.params;
   try {
     const video = await Video.findById(id);
+    console.log(video)
     if(!video) return next(404, "Video does not exist!");
 
-    if(id === userId) {
+    if(video.userId === userId) {
       const updatedVideo = await Video.findByIdAndUpdate(id, {
         $set: req.body
       }, {new: true})
@@ -70,7 +72,9 @@ export const updateVideoView  = async (req, res, next) => {
 // get all videos
 export const getallVideo  = async (req, res, next) => {
   try {
-    const allVideos = await Video.find();
+    const allVideos = await Video.find().sort({
+      createdAt: -1 // 1 for less viewed
+    });
 
     res.status(200).json(allVideos);
   } catch (error) {
@@ -110,7 +114,7 @@ export const getRandomVideos  = async (req, res, next) => {
   try {
     const randomVideos = await Video.aggregate([{
       $sample: {
-        size: 20
+        size: 40
       }
     }])
 
