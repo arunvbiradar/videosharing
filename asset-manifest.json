@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/vidshare/static/js/main.a586bc8f.js",
+    "index.html": "/vidshare/index.html",
+    "main.a586bc8f.js.map": "/vidshare/static/js/main.a586bc8f.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.a586bc8f.js"
+  ]
+}
